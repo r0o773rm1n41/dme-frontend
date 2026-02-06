@@ -80,13 +80,13 @@ useEffect(() => {
 
       <div className={`nav-item ${isActive("home") ? "active" : ""}`} onClick={() => go("/home")}>
         <div className="icon-wrap">
-          <img src="./public/imgs/dbd63161-eb86-463d-85f0-9f242e42d048.png" alt="home" />
+          <img src="./imgs/dbd63161-eb86-463d-85f0-9f242e42d048.png" alt="home" />
         </div>
       </div>
 
       <div className={`nav-item ${isActive("edit") ? "active" : ""}`} onClick={handleEditClick}>
         <div className="icon-wrap">
-          <img src="./public/imgs/3da7463a-197e-4501-9775-b8d053a1356f.png" alt="edit" />
+          <img src="./imgs/3da7463a-197e-4501-9775-b8d053a1356f.png" alt="edit" />
           {unreadCount > 0 && (
             <span className="badge">{unreadCount > 9 ? "9+" : unreadCount}</span>
           )}
@@ -95,13 +95,13 @@ useEffect(() => {
 
       <div className={`nav-item ${isActive("quiz") ? "active" : ""}`} onClick={() => go("/quiz", true)}>
         <div className="icon-wrap">
-          <img src="./public/imgs/9ca41b3b-36d0-4b1e-9a9d-cc0ca1b43d4f.png" alt="quiz" />
+          <img src="./imgs/9ca41b3b-36d0-4b1e-9a9d-cc0ca1b43d4f.png" alt="quiz" />
         </div>
       </div>
 
       <div className={`nav-item ${isActive("winners") ? "active" : ""}`} onClick={() => go("/winners")}>
         <div className="icon-wrap">
-          <img src="./public/imgs/06ae374d-372f-4968-8ffb-7b25c9960064.png" alt="winners" />
+          <img src="./imgs/06ae374d-372f-4968-8ffb-7b25c9960064.png" alt="winners" />
         </div>
       </div>
 
