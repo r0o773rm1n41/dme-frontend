@@ -138,10 +138,24 @@ export const reconnectSocketOnTokenRefresh = () => {
 // Global Axios interceptor for error handling
 API.interceptors.response.use(
   (response) => {
-    // Schedule token refresh after successful requests
-    if (response.config?.url?.includes('/auth/login') || response.config?.url?.includes('/auth/register')) {
+    // Auto-unwrap normalized API responses
+    if (
+      response.data &&
+      typeof response.data === "object" &&
+      "success" in response.data &&
+      "data" in response.data
+    ) {
+      response.data = response.data.data;
+    }
+
+    // Schedule token refresh after login/register
+    if (
+      response.config?.url?.includes("/auth/login") ||
+      response.config?.url?.includes("/auth/register")
+    ) {
       scheduleTokenRefresh();
     }
+
     return response;
   },
   async (error) => {
