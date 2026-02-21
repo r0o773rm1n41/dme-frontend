@@ -176,7 +176,7 @@ export default function EditBlogPage() {
             </div>
             <div className="form-group">
               <textarea
-                placeholder={`${t('writeNoteContent')} (${t('max')} 300 ${t('words')})`}
+                placeholder={`${t('Write Content Here...')} (${t('max.')} 300 ${t('words')})`}
                 value={content}
                 onChange={(e) => {
                   const newContent = e.target.value;
@@ -215,7 +215,7 @@ export default function EditBlogPage() {
             {/* PDF Upload */}
             <div className="form-group">
               <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
-                {t('pdfUploadPaidOnly')}
+                {t('Upload PDF (Paid Users Only)')}
               </label>
               <input
                 type="file"
@@ -246,7 +246,7 @@ export default function EditBlogPage() {
             <h3>📚 {t('myNotes')} ({blogs.length})</h3>
             {blogs.length === 0 ? (
               <div className="empty-state">
-                <p>{t('noNotesYet')}</p>
+                <p>{t('No Notes Yet')}</p>
               </div>
             ) : (
               <div className="notes-grid">
