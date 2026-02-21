@@ -3,7 +3,7 @@ import React, { useEffect, useState, useRef, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import API from "../utils/api";
-import { showAlert } from "../context/AlertContext";
+// import { showAlert } from "../context/AlertContext";
 import { socket } from "../socket";
 import './QuizPage.css';
 
@@ -322,9 +322,9 @@ export default function QuizPage() {
       // Only show error message
       const errorMsg = error?.response?.data?.error || error?.response?.data?.message || error.message;
       if (errorMsg.includes('Too many requests')) {
-        showAlert('Please wait before submitting again.', 'warning');
+        // showAlert('Please wait before submitting again.', 'warning');
       } else {
-        showAlert('Failed to submit answer: ' + errorMsg, 'danger');
+        // showAlert('Failed to submit answer: ' + errorMsg, 'danger');
       }
       // Answer remains locked - cannot retry
     }
