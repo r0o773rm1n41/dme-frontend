@@ -454,7 +454,7 @@ export default function HomePage() {
               borderRadius: "8px",
               marginTop: "20px"
             }}>
-              {loading && <p>⏳{t('loadingNotes')}</p>}
+              {loading && <p>⏳{t('loading Notes...')}</p>}
               {/* <p style={{ fontSize: "18px", color: "#666", marginBottom: "10px" }}>
                 📊 No trending posts yet
               </p>
