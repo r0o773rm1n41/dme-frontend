@@ -206,7 +206,7 @@ export default function EditBlogPage() {
                 {countWords(content)} / {MAX_CONTENT_WORDS} {t('words')}
                 {countWords(content) === MAX_CONTENT_WORDS && (
                   <span style={{ color: '#dc3545', marginLeft: '10px', fontWeight: 'bold' }}>
-                    🔒 {t('lockedMaximumReached')}
+                    🔒 {t('MaximumReached')}
                   </span>
                 )}
               </div>
@@ -215,7 +215,7 @@ export default function EditBlogPage() {
             {/* PDF Upload */}
             <div className="form-group">
               <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
-                {t('Upload PDF (Paid Users Only)')}
+                {t('Upload PDF')}
               </label>
               <input
                 type="file"
