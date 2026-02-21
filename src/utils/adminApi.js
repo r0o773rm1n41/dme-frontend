@@ -3,9 +3,14 @@ import axios from "axios";
 
 // Get the API URL from environment variables or default to localhost
 // const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
-const API_URL = import.meta.env.VITE_API_URL
-  ? `${import.meta.env.VITE_API_URL}/api`
-  : "http://localhost:5000/api";
+const getAPIURL = () => {
+  if (import.meta.env.VITE_API_URL) {
+    return `${import.meta.env.VITE_API_URL}/api`;
+  }
+  return "http://localhost:5000/api";
+};
+
+const API_URL = getAPIURL();
 
 console.log("🌐 Admin API Base URL:", API_URL);
 
