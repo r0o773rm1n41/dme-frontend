@@ -988,7 +988,7 @@ function PostCard({ post, onLike, currentUser }) {
 
           {/* Total Engagement */}
           <span style={{ fontSize: "13px", color: "rgb(102, 102, 102)", fontWeight: "500" }}>
-            📊 {t('engagement')}: {post.engagementScore || 0}
+            👁 {t('engagement')}: {post.engagementScore || 0}
           </span>
 
           {/* Position/Rank in Popular Feed */}
