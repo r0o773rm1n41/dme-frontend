@@ -188,7 +188,7 @@ export default function WinnersPage() {
     <img className="trophy-confetti" 
          alt="quiz" 
         //  src="https://img.icons8.com/?size=100&id=cRDlJeszVWm0&format=png&color=000000" />
-                 src="./public/imgs/9ca41b3b-36d0-4b1e-9a9d-cc0ca1b43d4f.png" />
+                 src="./public/imgs/trophee.png" />
   </div>
  <p>{t('top20Winners')} - {formatDate(quizDate)}</p>
 </div>
