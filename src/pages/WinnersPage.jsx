@@ -184,12 +184,17 @@ export default function WinnersPage() {
           </div> */}
 
   <div className="confetti-area">
-          <div className="trophy-icon" aria-label="Trophy">
+          {/* <div className="trophy-icon" aria-label="Trophy">
     <img className="trophy-confetti" 
          alt="quiz" 
         //  src="https://img.icons8.com/?size=100&id=cRDlJeszVWm0&format=png&color=000000" />
                  src="./public/imgs/trophee.png" />
-  </div>
+  </div> */}
+    <img
+  className="trophy-confetti"
+  alt="quiz"
+  src="/imgs/trophee.png"
+/>
  <p>{t('top20Winners')} - {formatDate(quizDate)}</p>
 </div>
 
