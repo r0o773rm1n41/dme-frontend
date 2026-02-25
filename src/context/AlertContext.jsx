@@ -1,6 +1,7 @@
 // frontend/src/context/AlertContext.jsx
 import React, { createContext, useContext, useState } from 'react';
-import Alert from '../components/Alert';
+// import Alert from '../components/Alert';
+import Alert from '../components/Alert.jsx';
 
 const AlertContext = createContext();
 
