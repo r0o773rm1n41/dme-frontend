@@ -1301,23 +1301,7 @@ body.dark .bottom-nav {
 }
 
 /* 🔔 Notification badge */
-.badge {
-  position: absolute;
-  top: -6px;
-  right: -10px;
-  width: 18px;
-  height: 18px;
-  font-size: 11px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: bold;
-  color: white;
-  background: #ff4444;
-  border-radius: 50%;
-  border: 2px solid white;
-  z-index: 30;
-}
+
 
 /* Mobile tweaks */
 @media (max-width: 480px) {
@@ -2617,11 +2601,12 @@ body.dark .action-button.secondary:hover {
   color: white;
   border-radius: 16px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-  transition: all 0.5s ease;
+  /* transition: all 0.5s ease; */
+  transition: all 0.3s ease;
+  animation: fadeInSlide 0.7s ease-in-out, glowMove 15s ease-in-out infinite;
 
   /* Animation */
   background-size: 10000%, 200%;
-  animation: glowMove 15s ease-in-out infinite;
 }
 
 /* Confetti wrapper positioned around trophy */

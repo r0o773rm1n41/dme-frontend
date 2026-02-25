@@ -350,6 +350,8 @@ export default function HomePage() {
   /**
    * Toggle like on a blog post and update UI immediately
    */
+  // Like toggle with animation
+  const [statsStarAnim, setStatsStarAnim] = useState({});
   const toggleLike = async (id) => {
     try {
       if (!user) {
@@ -358,7 +360,9 @@ export default function HomePage() {
       }
 
       const { data } = await API.post(`/blogs/${id}/like`);
-      
+      // Animate star for this post
+      setStatsStarAnim((prev) => ({ ...prev, [id]: true }));
+      setTimeout(() => setStatsStarAnim((prev) => ({ ...prev, [id]: false })), 600);
       // Update blog state optimistically
       setBlogs((prev) =>
         prev.map((b) =>
@@ -498,6 +502,7 @@ function PostCard({ post, onLike, currentUser }) {
   const [reportDescription, setReportDescription] = useState("");
   const [isBlocked, setIsBlocked] = useState(false);
   const menuRef = useRef(null);
+  const [starAnim, setStarAnim] = useState(false);
 
   const isLong = post.content.length > 300;
   const shortContent = isLong
@@ -967,17 +972,25 @@ function PostCard({ post, onLike, currentUser }) {
           {/* Like Button */}
           <span
             className="star-icon"
-            onClick={onLike}
+            onClick={() => {
+              setStarAnim(true);
+              onLike();
+              setTimeout(() => setStarAnim(false), 600);
+            }}
             style={{
               color: post.liked ? "gold" : "gray",
               cursor: "pointer",
-              fontSize: "18px",
+              fontSize: "22px",
+              transition: "transform 0.3s",
+              transform: starAnim ? "scale(1.5) rotate(-20deg)" : "none",
+              filter: starAnim ? "drop-shadow(0 0 6px gold)" : "none",
             }}
             title={t('likeThisPost')}
+            aria-label="post-star"
           >
             ⭐
           </span>
-          <span className="star-count" style={{ fontWeight: "bold" }}>
+          <span className="star-count" style={{ fontWeight: "bold", fontSize: "18px", transition: "transform 0.3s", transform: starAnim ? "scale(1.2)" : "none", color: starAnim ? "gold" : undefined }}>
             {post.likesCount} {t('likes')}
           </span>
 

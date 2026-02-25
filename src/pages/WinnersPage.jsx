@@ -193,7 +193,7 @@ export default function WinnersPage() {
     <img
   className="trophy-confetti"
   alt="quiz"
-  src="/imgs/trophee.png"
+  src="/imgs/tropheee.png"
 />
  <p>{t('top20Winners')} - {formatDate(quizDate)}</p>
 </div>
@@ -444,10 +444,9 @@ export default function WinnersPage() {
       </div>
 
       <div className="winner-info" style={{ flex: 1 }}>
-        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '5px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', marginBottom: '5px' }}>
           {winner.user.profileImage ? (
             <img 
-              // src={`http://localhost:5000/images/${winner.user.profileImage}`}
               src={getImageURL(winner.user.profileImage)}
               alt="Profile"
               style={{
@@ -480,14 +479,13 @@ export default function WinnersPage() {
           )}
 
           {winner.rank === 1 && <span className="crown">👑</span>}
-          <h3 className={winner.rank === 1 ? "shimmer" : ""} style={{ margin: 0, fontSize: '13px', position: 'relative' }}>
+          <h3 className={winner.rank === 1 ? "shimmer" : ""} style={{ margin: 0, fontSize: '13px', position: 'relative', flex: 1, textAlign: 'right' }}>
             {winner.user.fullName || winner.user.username || 'Anonymous'}
-            {winner.rank === 1 && <span className="badge gold">WINNER</span>}
-            {winner.rank === 2 && <span className="badge silver">WINNER</span>}
-            {winner.rank === 3 && <span className="badge bronze">WINNER</span>}
           </h3>
+          {winner.rank === 1 && <span className="badge gold">WINNER</span>}
+          {winner.rank === 2 && <span className="badge silver">WINNER</span>}
+          {winner.rank === 3 && <span className="badge bronze">WINNER</span>}
         </div>
-        
         
         <div style={{ display: 'flex', gap: '2px', fontSize: '14px', color: '#6c757d' }}>
           <span>{t('score')}: <strong>{winner.score}</strong></span>
