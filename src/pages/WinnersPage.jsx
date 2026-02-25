@@ -2,7 +2,7 @@
 // At the top of your file
 import * as motion from "motion/react-client";
 import React, { useState, useEffect, useContext, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Confetti from "react-confetti";
 import DarkModeToggle from "../components/DarkModeToggle";
 import { AuthContext } from "../context/AuthContext";
@@ -18,6 +18,7 @@ export default function WinnersPage() {
   const { date } = useParams(); // Optional date parameter
   const [winners, setWinners] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
   const [error, setError] = useState(null);
   const [selectedDate, setSelectedDate] = useState(date || new Date().toISOString().split('T')[0]);
   const [totalParticipants, setTotalParticipants] = useState(0);
@@ -425,6 +426,14 @@ export default function WinnersPage() {
         borderRadius: '10px',
         boxShadow: winner.rank <= 3 ? '0 4px 8px rgba(0, 0, 0, 0.1)' : '0 2px 4px rgba(0, 0, 0, 0.05)',
         cursor: 'pointer',
+      }}
+      tabIndex={0}
+      onClick={() => {
+        if (winner.user && winner.user._id) {
+          navigate(`/user/${winner.user._id}/blogs`);
+        } else {
+          alert('No blogs yet for this user.');
+        }
       }}
     >
       {/* The rest of your winner content stays the same */}

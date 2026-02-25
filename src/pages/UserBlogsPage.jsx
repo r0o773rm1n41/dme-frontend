@@ -45,8 +45,8 @@ export default function UserBlogsPage() {
   const totalBlogs = pagination?.totalBlogs || blogs.length;
 
   const loadUserBlogs = useCallback(async () => {
-    if (!userId) {
-      setError("Invalid user ID");
+    if (!userId || userId === 'undefined') {
+      setError("No blogs yet for this user.");
       setLoading(false);
       return;
     }
@@ -87,13 +87,13 @@ export default function UserBlogsPage() {
       setBlogUser(data.user);
       setPagination(data.pagination);
     } catch (err) {
-      setError(err.response?.data?.message || err.message || "Failed to load user blogs");
+      if (err.response?.status === 404 || err.response?.status === 500) {
+        setError("No blogs yet for this user.");
+      } else {
+        setError(err.response?.data?.message || err.message || "Failed to load user blogs");
+      }
       setBlogs([]);
       setQuizzes([]);
-
-      if (err.response?.status === 404) {
-        setTimeout(() => navigate("/home"), 2000);
-      }
     } finally {
       setLoading(false);
     }

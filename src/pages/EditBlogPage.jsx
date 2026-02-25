@@ -124,6 +124,18 @@ export default function EditBlogPage() {
     loadMyBlogs();
   };
 
+  // Sorting state
+  const [sortOrder, setSortOrder] = useState('desc'); // 'desc' for newest first, 'asc' for oldest first
+
+  // Sort blogs
+  const sortedBlogs = blogs.slice().sort((a, b) => {
+    if (sortOrder === 'desc') {
+      return new Date(b.createdAt) - new Date(a.createdAt);
+    } else {
+      return new Date(a.createdAt) - new Date(b.createdAt);
+    }
+  });
+
   return (
     <>
       <header className="header">
@@ -243,15 +255,47 @@ export default function EditBlogPage() {
           </div>
 
           <div className="notes-section">
-            <h3>📚 {t('myNotes')} ({blogs.length})</h3>
-            {blogs.length === 0 ? (
-              <div className="empty-state">
-                <p>{t('No Notes Yet')}</p>
+            <h3>📚 My Notes ({sortedBlogs.length})</h3>
+              {/* Sort Option */}
+              <div style={{ display: 'flex', gap: '8px', alignItems: 'center', marginBottom: '12px' }}>
+                <span style={{ fontWeight: 'bold', fontSize: '14px' }}>Sort:</span>
+                <button
+                  onClick={() => setSortOrder('desc')}
+                  style={{
+                    padding: '6px 12px',
+                    borderRadius: '20px',
+                    border: sortOrder === 'desc' ? '2px solid #007bff' : '1px solid #ccc',
+                    background: sortOrder === 'desc' ? '#eaf4ff' : '#fff',
+                    color: sortOrder === 'desc' ? '#007bff' : '#333',
+                    fontWeight: 'bold',
+                    cursor: 'pointer',
+                  }}
+                >
+                  Newest
+                </button>
+                <button
+                  onClick={() => setSortOrder('asc')}
+                  style={{
+                    padding: '6px 12px',
+                    borderRadius: '20px',
+                    border: sortOrder === 'asc' ? '2px solid #007bff' : '1px solid #ccc',
+                    background: sortOrder === 'asc' ? '#eaf4ff' : '#fff',
+                    color: sortOrder === 'asc' ? '#007bff' : '#333',
+                    fontWeight: 'bold',
+                    cursor: 'pointer',
+                  }}
+                >
+                  Oldest
+                </button>
               </div>
-            ) : (
-              <div className="notes-grid">
-                {blogs.map((b) => (
-                  <div key={b._id} className="note-card">
+              {sortedBlogs.length === 0 ? (
+                <div className="empty-state">
+                  <p>{t('No Notes Yet')}</p>
+                </div>
+              ) : (
+                <div className="notes-grid">
+                  {sortedBlogs.map((b) => (
+                    <div key={b._id} className="note-card">
                     <div className="note-content">
                       <h4 className="note-title">{b.title}</h4>
                       <p className="note-preview">
