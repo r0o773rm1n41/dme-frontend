@@ -343,7 +343,7 @@ export default function UserBlogsPage() {
               <div style={{ textAlign: "center" }}>
                 <div
                   style={{
-                    fontSize: "18px",
+                    fontSize: "16px",
                     fontWeight: "700",
                     color: "#ffffff",
                   }}
@@ -358,7 +358,7 @@ export default function UserBlogsPage() {
               <div style={{ textAlign: "center" }}>
                 <div
                   style={{
-                    fontSize: "18px",
+                    fontSize: "16px",
                     fontWeight: "700",
                     color: "#ffffff",
                   }}
