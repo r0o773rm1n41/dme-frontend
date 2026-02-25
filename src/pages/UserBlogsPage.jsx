@@ -171,131 +171,132 @@ for (const b of data.blogs) {
         <h2>{t('userNotes').toUpperCase()}</h2>
       </header>
 
-      <div className="home-container">
-        {blogUser && (
-        <div
-  className="premium-card"
-  style={{
-    display: "flex",
-    justifyContent: "space-between",   // 👈 important
-    flexWrap: "wrap",
-    alignItems: "center",
-    marginBottom: "20px",
-    padding: "18px 20px",
-    background: "rgba(255, 255, 255, 0.2)",
-    backdropFilter: "blur(10px)",
-    WebkitBackdropFilter: "blur(10px)",
-    borderRadius: "16px",
-    border: "1px solid rgba(255, 255, 255, 0.3)",
-    boxShadow: "0 8px 32px rgba(0, 0, 0, 0.15)",
-  }}
->
-  {/* LEFT SIDE */}
-  <div style={{ display: "flex", alignItems: "center", gap: "15px" }}>
-    <div style={{ position: "relative", width: 60, height: 60 }}>
-      <img
-        src={getImageURL(blogUser.profileImage)}
-        alt={blogUser.username || blogUser.fullName}
-        style={{
-          width: "60px",
-          height: "60px",
-          borderRadius: "50%",
-          objectFit: "cover",
-          display: blogUser.profileImage ? "block" : "none",
-        }}
-        onError={(e) => (e.target.style.display = "none")}
-      />
+<div className="home-container">
+  {blogUser && (
+    <div
+      className="premium-card"
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+        flexWrap: "wrap",
+        alignItems: "center",
+        marginBottom: "20px",
+        padding: "18px 20px",
+        background: "rgba(255, 255, 255, 0.2)",
+        backdropFilter: "blur(10px)",
+        WebkitBackdropFilter: "blur(10px)",
+        borderRadius: "16px",
+        border: "1px solid rgba(255, 255, 255, 0.3)",
+        boxShadow: "0 8px 32px rgba(0, 0, 0, 0.15)",
+      }}
+    >
+      {/* LEFT SIDE */}
+      <div style={{ display: "flex", alignItems: "center", gap: "15px" }}>
+        <div style={{ position: "relative", width: 60, height: 60 }}>
+          <img
+            src={getImageURL(blogUser.profileImage)}
+            alt={blogUser.username || blogUser.fullName}
+            style={{
+              width: "60px",
+              height: "60px",
+              borderRadius: "50%",
+              objectFit: "cover",
+              display: blogUser.profileImage ? "block" : "none",
+            }}
+            onError={(e) => (e.target.style.display = "none")}
+          />
 
-      {!blogUser.profileImage && (
-        <div
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "60px",
-            height: "60px",
-            borderRadius: "50%",
-            backgroundColor: "var(--color-primary)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontSize: "24px",
-            fontWeight: "bold",
-            color: "#fff",
-          }}
-        >
-          {(blogUser.fullName || blogUser.username || "U")
-            .charAt(0)
-            .toUpperCase()}
+          {!blogUser.profileImage && (
+            <div
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                width: "60px",
+                height: "60px",
+                borderRadius: "50%",
+                backgroundColor: "var(--color-primary)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: "24px",
+                fontWeight: "bold",
+                color: "#fff",
+              }}
+            >
+              {(blogUser.fullName || blogUser.username || "U")
+                .charAt(0)
+                .toUpperCase()}
+            </div>
+          )}
         </div>
-      )}
-    </div>
 
-    <div>
-      <h3 style={{ margin: 0, fontSize: "18px", color: "white" }}>
-        {blogUser.fullName || blogUser.username || "Unknown User"}
-      </h3>
-      <p style={{ margin: 0, color: "#bbb", fontSize: "14px" }}>
-        @{blogUser.username || "user"}
-      </p>
-    </div>
-  </div>
+        <div>
+          <h3 style={{ margin: 0, fontSize: "18px", color: "white" }}>
+            {blogUser.fullName || blogUser.username || "Unknown User"}
+          </h3>
+          <p style={{ margin: 0, color: "#bbb", fontSize: "14px" }}>
+            @{blogUser.username || "user"}
+          </p>
+        </div>
+      </div>
 
-{/* RIGHT SIDE */}
-<div
-  style={{
-    display: "flex",
-    gap: "35px",
-    alignItems: "center",
-  }}
->
-  <div style={{ textAlign: "center" }}>
-    <div
-      style={{
-        fontSize: "20px",
-        fontWeight: "700",
-        background: "linear-gradient(45deg, gold, orange)",
-        WebkitBackgroundClip: "text",
-        WebkitTextFillColor: "transparent",
-      }}
-    >
-      {totalLikes}+
-    </div>
-    <div style={{ fontSize: "11px", letterSpacing: "1px", opacity: 0.6 }}>
-      LIKES
-    </div>
-  </div>
+      {/* RIGHT SIDE */}
+      <div
+        style={{
+          display: "flex",
+          gap: "35px",
+          alignItems: "center",
+        }}
+      >
+        <div style={{ textAlign: "center" }}>
+          <div
+            style={{
+              fontSize: "20px",
+              fontWeight: "700",
+              background: "linear-gradient(45deg, gold, orange)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}
+          >
+            {totalLikes}+
+          </div>
+          <div style={{ fontSize: "11px", letterSpacing: "1px", opacity: 0.6 }}>
+            LIKES
+          </div>
+        </div>
 
-  <div style={{ textAlign: "center" }}>
-    <div
-      style={{
-        fontSize: "20px",
-        fontWeight: "700",
-        background: "linear-gradient(45deg, #00f5ff, #008cff)",
-        WebkitBackgroundClip: "text",
-        WebkitTextFillColor: "transparent",
-      }}
-    >
-      {totalBlogs}+
+        <div style={{ textAlign: "center" }}>
+          <div
+            style={{
+              fontSize: "20px",
+              fontWeight: "700",
+              background: "linear-gradient(45deg, #00f5ff, #008cff)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}
+          >
+            {totalBlogs}+
+          </div>
+          <div style={{ fontSize: "11px", letterSpacing: "1px", opacity: 0.6 }}>
+            BLOGS
+          </div>
+        </div>
+      </div>
     </div>
-    <div style={{ fontSize: "11px", letterSpacing: "1px", opacity: 0.6 }}>
-      BLOGS
-    </div>
-  </div>
-</div>
+  )}
 
-          
-        <h2
-          style={{
-            fontSize: "15px",
-            fontWeight: "bold",
-            color: "var(--color-primary)",
-            margin: "5px 0 15px 0",
-            letterSpacing: "0.5px",
-          }}
-        >
-          📝 {blogUser?.fullName || blogUser?.username || "User"}'s {t('notes')}
-        </h2>
+  <h2
+    style={{
+      fontSize: "15px",
+      fontWeight: "bold",
+      color: "var(--color-primary)",
+      margin: "5px 0 15px 0",
+      letterSpacing: "0.5px",
+    }}
+  >
+    📝 {blogUser?.fullName || blogUser?.username || "User"}'s {t("notes")}
+  </h2>
 
         <input
           id="searchBar2"
