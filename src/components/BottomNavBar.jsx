@@ -86,7 +86,7 @@ useEffect(() => {
 
       <div className={`nav-item ${isActive("edit") ? "active" : ""}`} onClick={handleEditClick}> 
         <div className="icon-wrap"> 
-          <img src="/imgs/3da7463a-197e-4501-9775-b8d053a1356f.png" alt="edit" /> 
+          <img src="/imgs/trophee.png" alt="edit" /> 
           {unreadCount > 0 && ( 
             <span className="badge">{unreadCount > 9 ? "9+" : unreadCount}</span> 
           )} 
