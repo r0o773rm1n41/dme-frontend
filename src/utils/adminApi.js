@@ -12,7 +12,6 @@ const getAPIURL = () => {
 
 const API_URL = getAPIURL();
 
-console.log("🌐 Admin API Base URL:", API_URL);
 
 const AdminAPI = axios.create({
   baseURL: API_URL,
@@ -37,7 +36,6 @@ AdminAPI.interceptors.request.use(
 AdminAPI.interceptors.response.use(
   (response) => response,
   (error) => {
-    console.error("🚨 Admin API Error:", error?.response || error);
 
     const message =
       error?.response?.data?.message ||

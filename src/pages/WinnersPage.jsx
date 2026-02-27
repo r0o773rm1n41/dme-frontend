@@ -90,7 +90,6 @@ export default function WinnersPage() {
         setResultPublished(false);
       }
     } catch (error) {
-      console.error("Failed to load winners:", error);
       setError("Failed to load winners data");
       setWinners([]);
       setResultPublished(false);
@@ -432,7 +431,6 @@ export default function WinnersPage() {
         if (winner.user && winner.user._id) {
           navigate(`/user/${winner.user._id}/blogs`);
         } else {
-          alert('No blogs yet for this user.');
         }
       }}
     >

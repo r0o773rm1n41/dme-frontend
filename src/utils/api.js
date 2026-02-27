@@ -67,8 +67,6 @@ const API_URL = getAPIURL();
 //   "https://api.dailymindeducation.com/api";
 
 
-// Log the API URL for debugging
-console.log("🌐 API Base URL:", API_URL);
 
 const API = axios.create({
   baseURL: API_URL,
@@ -106,13 +104,12 @@ const scheduleTokenRefresh = () => {
     if (refreshToken) {
       try {
         const refreshResponse = await API.post("/auth/refresh", { refreshToken });
-        const newAccessToken = refreshResponse.data.accessToken;
+        const { accessToken: newAccessToken, refreshToken: newRefreshToken } = refreshResponse.data;
         localStorage.setItem("token", newAccessToken);
-        console.log("✅ Token refreshed proactively");
+        localStorage.setItem("refreshToken", newRefreshToken);
         // Schedule next refresh
         scheduleTokenRefresh();
       } catch (error) {
-        console.error("❌ Proactive token refresh failed:", error);
         // Don't redirect here - let the 401 handler deal with it
       }
     }
@@ -164,7 +161,6 @@ API.interceptors.response.use(
     const isQuizEndpoint = error.config?.url?.includes('/quiz/');
     
     if (!isNetworkError || !isQuizEndpoint) {
-      console.error("🚨 API Error:", error?.response || error);
     }
 
     const message =
@@ -192,31 +188,28 @@ API.interceptors.response.use(
       if (refreshToken) {
         try {
           // Try to refresh token (without using API to avoid recursion)
-        const refreshResponse = await axiosDirect.post(`${API_URL}/auth/refresh`, { refreshToken }, {
-          headers: { 'Content-Type': 'application/json' }
-        });
-        const newAccessToken = refreshResponse.data.accessToken;
-        
-        // Update stored token
-        localStorage.setItem("token", newAccessToken);
-        
-        // Reconnect socket with new token (dynamically import to avoid circular dependency)
-        import('../socket').then(({ reconnectSocket }) => {
-          reconnectSocket();
-        }).catch(() => {
-          // Socket module not available, ignore
-        });
-        
-        // Schedule next refresh
-        scheduleTokenRefresh();
-          
+          const refreshResponse = await axiosDirect.post(
+            `${API_URL}/auth/refresh`,
+            { refreshToken },
+            { headers: { "Content-Type": "application/json" } }
+          );
+          const { accessToken: newAccessToken, refreshToken: newRefreshToken } = refreshResponse.data;
+          // Store BOTH new tokens (rotation support)
+          localStorage.setItem("token", newAccessToken);
+          localStorage.setItem("refreshToken", newRefreshToken);
+          // Reconnect socket with new token (dynamically import to avoid circular dependency)
+          import('../socket').then(({ reconnectSocket }) => {
+            reconnectSocket();
+          }).catch(() => {
+            // Socket module not available, ignore
+          });
+          // Schedule next refresh
+          scheduleTokenRefresh();
           // Retry the original request with new token
           error.config.headers.Authorization = `Bearer ${newAccessToken}`;
           error.config._retry = true;
-          
           return API.request(error.config);
         } catch (refreshError) {
-          console.error("Token refresh failed:", refreshError);
           // Refresh failed, remove tokens and redirect
           localStorage.removeItem("token");
           localStorage.removeItem("refreshToken");

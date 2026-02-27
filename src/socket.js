@@ -28,7 +28,6 @@ const getSocketURL = () => {
 
 const SOCKET_URL = getSocketURL();
 
-console.log("🔌 Socket.IO URL:", SOCKET_URL);
 
 // Initialize socket with dynamic token
 const getSocketAuth = () => {
@@ -58,11 +57,9 @@ export const reconnectSocket = () => {
 
 // Handle connection events for debugging
 socket.on("connect", () => {
-  console.log("✅ Socket connected:", socket.id);
 });
 
 socket.on("connect_error", async (err) => {
-  console.error("❌ Socket connection error:", err.message);
   
   // If auth failed, try refreshing token and reconnecting
   if (err.message.includes('Authentication') || err.message.includes('jwt')) {
@@ -82,17 +79,13 @@ socket.on("connect_error", async (err) => {
         // Update socket auth and reconnect
         socket.auth = getSocketAuth;
         socket.connect();
-        console.log("✅ Socket reconnected with refreshed token");
       } catch (refreshError) {
-        console.error("❌ Token refresh failed for socket:", refreshError);
       }
     }
   } else {
-    console.log("📡 Falling back to polling...");
   }
 });
 
 socket.on("disconnect", (reason) => {
-  console.warn("⚠️ Socket disconnected:", reason);
 });
 // });

@@ -1,11 +1,10 @@
-// // frontend/src/context/AuthContext.jsx
+
+
 
 import React, { createContext, useEffect, useState } from "react";
 import API from "../utils/api";
 import { showAlert } from "./AlertContext";
 import { socket } from "../socket";
-
-console.log("✅ API_URL being used:", API.defaults.baseURL);
 
 
 export const AuthContext = createContext();
@@ -262,7 +261,6 @@ export default function AuthProvider({ children }) {
             setUser(userRes.data.user);
           }
         } catch (err) {
-          console.warn("Failed to fetch full user profile after registration:", err);
           // Keep the user set from registration response
         }
       }
@@ -279,53 +277,40 @@ export default function AuthProvider({ children }) {
       if (!password || typeof password !== 'string') {
         throw new Error("Password is required");
       }
-      
       const payload = phone ? { phone, password } : { email, password };
       const res = await API.post("/auth/login", payload);
-      const token = res.data.token || res.data.accessToken;
+      // Robustly extract token from response
+      const accessToken = res.data.accessToken || res.data.token;
       const refreshToken = res.data.refreshToken;
-      if (token) {
-        localStorage.setItem("token", token);
-        if (refreshToken) {
-          localStorage.setItem("refreshToken", refreshToken);
+      if (accessToken) {
+        localStorage.setItem("token", accessToken);
+      }
+      if (refreshToken) {
+        localStorage.setItem("refreshToken", refreshToken);
+      }
+      // Set user from login response with default role
+      const userData = {
+        ...(res.data.user || res.data),
+        role: (res.data.user?.role || res.data?.role) || 'USER'
+      };
+      setUser(userData);
+      // Fetch profile immediately after login to ensure UI updates
+      try {
+        const profileRes = await API.get("/auth/me");
+        if (profileRes?.data?.user) {
+          const fullUserData = {
+            ...profileRes.data.user,
+            role: profileRes.data.user.role || 'USER'
+          };
+          setUser(fullUserData);
+        } else if (res?.data?.user) {
+          setUser(userData);
         }
-        // Set user from login response with default role
-        const userData = {
-          ...(res.data.user || res.data),
-          role: (res.data.user?.role || res.data?.role) || 'USER'
-        };
-        setUser(userData);
-        
-        // Fetch profile immediately after login to ensure UI updates
-        try {
-          const profileRes = await API.get("/auth/me", {
-            withCredentials: true,
-            headers: {
-              'Authorization': `Bearer ${token}`
-            }
-          });
-          if (profileRes?.data?.user) {
-            const fullUserData = {
-              ...profileRes.data.user,
-              role: profileRes.data.user.role || 'USER'
-            };
-            setUser(fullUserData);
-          } else if (res?.data?.user) {
-            setUser(userData);
-          }
-        } catch (profileError) {
-          console.warn("Profile fetch failed after login, using response data:", profileError);
-          // Fallback to user data from login response
-          if (res?.data?.user) {
-            setUser(userData);
-          }
+      } catch (profileError) {
+        // Fallback to user data from login response
+        if (res?.data?.user) {
+          setUser(userData);
         }
-      } else if (res?.data?.user) {
-        const userData = {
-          ...res.data.user,
-          role: res.data.user.role || 'USER'
-        };
-        setUser(userData);
       }
       showAlert("Login successful!", "success", 3000);
       // Connect socket after successful login
@@ -344,8 +329,6 @@ export default function AuthProvider({ children }) {
     } catch (e) {
       // ignore errors
     } finally {
-      localStorage.removeItem("token");
-      localStorage.removeItem("refreshToken");
       setUser(null);
       // Disconnect socket on logout
       if (socket.connected) {

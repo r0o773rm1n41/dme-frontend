@@ -126,7 +126,6 @@ export default function RegisterPage() {
         setStep(3);
       }
     } catch (err) {
-      console.error(err);
       if (otpMethod === "sms") {
         const rem = getResendRemaining(form.phone);
         if (rem > 0) {
@@ -177,7 +176,6 @@ export default function RegisterPage() {
         }
       }
     } catch (err) {
-      console.error("Resend SMS error", err);
       if (otpMethod === "sms") {
         const rem = getResendRemaining(form.phone);
         if (rem > 0) {
@@ -242,7 +240,6 @@ export default function RegisterPage() {
       // If registration successful but no immediate redirect, show success
       nav("/edit-profile");
     } catch (err) {
-      console.error(err);
       setError(err.response?.data?.message || err.message || "Registration failed");
     } finally {
       setLoading(false);
@@ -287,7 +284,6 @@ export default function RegisterPage() {
       nav("/edit-profile");
       return;
     } catch (err) {
-      console.error(err);
       const errorMsg = err.response?.data?.message || "Email OTP verification failed";
       setError(errorMsg);
       if (err.response?.data?.requiresEmailOtp && err.response?.data?.phoneVerified) {

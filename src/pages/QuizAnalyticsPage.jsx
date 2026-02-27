@@ -37,7 +37,6 @@ export default function QuizAnalyticsPage() {
     
     // Listen for real-time quiz analytics updates
     socket.on('quiz-analytics-update', (data) => {
-      console.log('📊 Real-time quiz analytics update:', data);
       setLiveQuizAnalytics(data);
     });
 

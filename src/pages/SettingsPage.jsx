@@ -63,7 +63,6 @@ export default function SettingsPage() {
         await logout();
         window.location.href = "/login";
       } catch (error) {
-        console.error("Logout failed:", error);
       }
     }
   };
@@ -96,7 +95,6 @@ export default function SettingsPage() {
         if (prefs.language) setLanguage(prefs.language);
       } catch (e) {
         // fallback to localStorage (already handled)
-        console.warn('Could not load preferences from server', e.message || e);
       }
     })();
     return () => { mounted = false; };
@@ -154,19 +152,15 @@ export default function SettingsPage() {
           } else if (job.status === 'failed') {
             clearInterval(id);
             setStatusMessage('Failed: ' + (job.error || 'unknown'));
-            alert('Delete failed: ' + (job.error || 'unknown'));
             setDeleting(false);
             setShowConfirmModal(false);
           }
         } catch (e) {
-          console.warn('polling job status failed', e.message || e);
         }
       }, pollInterval);
 
     } catch (err) {
-      console.error('Delete enqueue failed:', err);
       setStatusMessage(err.message || 'Failed to start deletion');
-      alert('Failed to enqueue deletion: ' + (err.message || 'unknown'));
       setDeleting(false);
       setShowConfirmModal(false);
       setDeleteProgress(0);
@@ -273,8 +267,6 @@ export default function SettingsPage() {
                 <input type="password" placeholder={t('confirmPassword')} value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} />
                 <button className="action-btn" onClick={async () => {
                   // client-side validation
-                  if (!oldPassword || !newPassword) return alert('Please Provide Both Old and New Passwords');
-                  if (newPassword !== confirmPassword) return alert('New Passwords Do Not Match');
                   try {
                     setStatusMessage('Changing Password...');
                     // server expects currentPassword
@@ -284,9 +276,7 @@ export default function SettingsPage() {
                     setOldPassword(''); setNewPassword(''); setConfirmPassword('');
                     setTimeout(() => setStatusMessage(''), 2000);
                   } catch (err) {
-                    console.error('Change password failed', err);
                     setStatusMessage(err.message || 'Failed To Change Password');
-                    alert('Failed: ' + (err.message || 'unknown'));
                   }
                 }}>{t('save')}</button>
                 <button className="action-btn" onClick={() => { setShowChangePassword(false); setOldPassword(''); setNewPassword(''); setConfirmPassword(''); }}>{t('cancel')}</button>

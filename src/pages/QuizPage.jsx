@@ -51,7 +51,6 @@ export default function QuizPage() {
         setQuizState('ENDED');
       } else if (error.response?.status !== 401 && error.response?.status !== 429) {
         // Don't log 401 or 429 errors - they're handled elsewhere
-        console.error('Failed to poll question:', error);
       }
     }
   };
@@ -151,7 +150,6 @@ export default function QuizPage() {
 
     // Listen for quiz state changes
     const handleQuizStateChanged = (data) => {
-      console.log('Quiz state changed:', data);
       if (data.quizDate === today) {
         setQuizState(data.toState);
         // Reset backoff on successful state change
@@ -162,7 +160,6 @@ export default function QuizPage() {
 
     // Listen for question advancement
     const handleQuestionAdvanced = (data) => {
-      console.log('Question advanced:', data);
       if (data.quizDate === today) {
         // Force refresh current question when question advances via WebSocket
         pollCurrentQuestion();
@@ -195,7 +192,6 @@ export default function QuizPage() {
         setQuizState(res.data.state);
         setQuizError(null);
       } catch (error) {
-        console.error('Failed to fetch initial status:', error);
         setQuizState('ERROR');
         setQuizError(error?.response?.data?.message || error.message);
       }
@@ -224,7 +220,6 @@ export default function QuizPage() {
       } catch (error) {
         // Don't log 401 or 429 errors - they're handled elsewhere
         if (error.response?.status !== 401 && error.response?.status !== 429) {
-          console.error('Failed to poll status:', error);
         }
         setQuizError(error?.response?.data?.message || error.message);
         statusPollCountRef.current += 1;
@@ -260,7 +255,6 @@ export default function QuizPage() {
         } catch (error) {
           // Don't log 401 or 429 errors
           if (error.response?.status !== 401 && error.response?.status !== 429) {
-            console.error('Failed to join quiz:', error);
           }
         }
       };

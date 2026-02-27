@@ -70,7 +70,6 @@ export default function UserBlogsPage() {
             await API.post(`/blogs/${b._id}/view`);
             localStorage.setItem(key, "1");
           } catch (err) {
-            console.log("Auto view update failed:", b._id, err);
           }
         }
       }
@@ -151,7 +150,6 @@ export default function UserBlogsPage() {
         data.liked ? prev + 1 : prev - 1
       );
     } catch (err) {
-      console.error("Like toggle error:", err);
     }
   };
 
@@ -532,14 +530,12 @@ function PostCard({ post, onLike, currentUser }) {
             <button
               onClick={async () => {
                 if (!currentUser) {
-                  alert(t("loginToDownloadPdf"));
                   window.location.href = "/login";
                   return;
                 }
                 try {
                   const paymentStatus = await API.get("/payments/quiz-status");
                   if (!paymentStatus.data.hasPaidEver) {
-                    alert(t("paymentRequiredPdfDownload"));
                     window.location.href = "/payment";
                     return;
                   }
@@ -555,12 +551,9 @@ function PostCard({ post, onLike, currentUser }) {
                   a.remove();
                   URL.revokeObjectURL(url);
                 } catch (error) {
-                  console.error("PDF download check error:", error);
                   if (error.response?.status === 403) {
-                    alert(t("paymentRequiredPdfDownload"));
                     window.location.href = "/payment";
                   } else {
-                    alert(t("failedToDownloadPdf"));
                   }
                 }
               }}
@@ -1147,14 +1140,12 @@ function PostCard({ post, onLike, currentUser }) {
 //             <button
 //               onClick={async () => {
 //                 if (!currentUser) {
-//                   alert(t('loginToDownloadPdf'));
 //                   window.location.href = "/login";
 //                   return;
 //                 }
 //                 try {
 //                   const paymentStatus = await API.get("/payments/quiz-status");
 //                   if (!paymentStatus.data.hasPaidEver) {
-//                     alert(t('paymentRequiredPdfDownload'));
 //                     window.location.href = "/payment";
 //                     return;
 //                   }
@@ -1174,10 +1165,8 @@ function PostCard({ post, onLike, currentUser }) {
 //                 } catch (error) {
 //                   console.error("PDF download check error:", error);
 //                   if (error.response?.status === 403) {
-//                     alert(t('paymentRequiredPdfDownload'));
 //                     window.location.href = "/payment";
 //                   } else {
-//                     alert(t('failedToDownloadPdf'));
 //                   }
 //                 }
 //               }}

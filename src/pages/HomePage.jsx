@@ -159,7 +159,6 @@ export default function HomePage() {
         return;
       }
 
-      console.log("📊 Total blogs fetched:", data.blogs.length);
 
       // ✅ STEP 1: Map blogs with engagement metrics
       const mapped = data.blogs.map((b) => ({
@@ -170,12 +169,6 @@ export default function HomePage() {
         engagementScore: (b.viewsCount || b.views || 0) + (b.likesCount || 0), // Views first, then likes
       }));
 
-      console.log("📈 Engagement Scores:", mapped.map((b) => ({
-        title: b.content?.substring(0, 30) + "...",
-        views: b.viewsCount,
-        likes: b.likesCount,
-        engagement: b.engagementScore,
-      })));
 
       // ✅ STEP 2: Sort by algorithm: Top Views → Top Liked → Low Liked/Views
       // Algorithm: Most Viewed first, then Most Liked, then alternating, then low engagement
@@ -254,10 +247,6 @@ export default function HomePage() {
         }
       });
 
-      console.log("🎯 Posts sorted by engagement (views first, then likes)");
-      sorted.forEach((b, idx) => {
-        console.log(`  #${idx + 1}: "${b.content?.substring(0, 40)}..." - 👁️ ${b.viewsCount} views | ❤️ ${b.likesCount} likes = ${b.engagementScore} engagement`);
-      });
 
       // ✅ STEP 3: Assign pairing indices based on SORTED position (for reference)
       const pairs = generateLikeViewPairs(sorted.length);
@@ -268,14 +257,7 @@ export default function HomePage() {
         viewIndex: pairs[idx].view,
       }));
 
-      console.log("ℹ️ Pairing Reference (for tracking):", pairedBlogs.map((b) => ({
-        position: b.position,
-        title: b.content?.substring(0, 30),
-        pairingPattern: `L[${b.likeIndex}]V[${b.viewIndex}]`,
-        actualStats: `L=${b.likesCount}|V=${b.viewsCount}`,
-      })));
 
-      console.log(`✅ Displaying ALL ${pairedBlogs.length} posts sorted by engagement`);
 
       setBlogs(pairedBlogs);
     } catch (err) {
