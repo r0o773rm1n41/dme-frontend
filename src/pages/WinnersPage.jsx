@@ -387,8 +387,10 @@ import DarkModeToggle from "../components/DarkModeToggle";
 import { AuthContext } from "../context/AuthContext";
 import { useTranslation } from "../context/LanguageContext";
 import API from "../utils/api";
-import "../styles/global.css";
+// import "../styles/global.css";
+import './winners.css';
 import { getImageURL } from "../utils/imageHelper";
+
 
 
 export default function WinnersPage() {
