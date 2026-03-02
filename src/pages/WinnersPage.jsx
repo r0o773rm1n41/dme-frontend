@@ -188,7 +188,7 @@ export default function WinnersPage() {
   style={{
     position: 'relative',
     width: '100%',
-    height: '40vh',                // height relative to viewport
+    height: '13vh',                // height relative to viewport
     maxHeight: '500px',            // limit on very large screens
     display: 'flex',
     alignItems: 'center',
@@ -221,7 +221,7 @@ export default function WinnersPage() {
     src="/imgs/trophy2.gif"
     style={{
       position: 'relative',
-      width: '35%',                 // responsive width
+      width: '25%',                 // responsive width
       maxWidth: '300px',            // limit size
       height: 'auto',
       zIndex: 2
@@ -231,7 +231,7 @@ export default function WinnersPage() {
   <p
     style={{
       position: 'absolute',
-      bottom: '-6vh',               // responsive bottom offset
+      bottom: '-3vh',               // responsive bottom offset
       textAlign: 'center',
       fontSize: '2vh',              // scales with viewport
       fontWeight: 'bold',
