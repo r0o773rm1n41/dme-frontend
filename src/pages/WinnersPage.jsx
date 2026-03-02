@@ -183,24 +183,46 @@ export default function WinnersPage() {
           <p>Top 20 Winners - {formatDate(quizDate)}</p>
           </div> */}
 
-  <div className="confetti-area">
-          {/* <div className="trophy-icon" aria-label="Trophy">
-    <img className="trophy-confetti" 
-         alt="quiz" 
-        //  src="https://img.icons8.com/?size=100&id=cRDlJeszVWm0&format=png&color=000000" />
-                 src="./public/imgs/trophee.png" />
-  </div> */}
-    <img
-  className="trophy-confetti"
-  alt="quiz"
-  src="/imgs/trophy2.gif"
-/>
-    <img
-  className="trophy-confetti"
-  alt="quiz"
-  src="/imgs/confetti.gif" // <-- your new GIF path
-/>
- <p>{t('top20Winners')} - {formatDate(quizDate)}</p>
+<div
+  className="confetti-area-center"
+  style={{
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: '40px 0'
+  }}
+>
+  <img
+    className="trophy-confetti-center"
+    alt="quiz"
+    src="/imgs/trophy2.gif"
+    style={{
+      width: '250px',    // adjust size as needed
+      height: 'auto',
+      margin: '10px 0'
+    }}
+  />
+  <img
+    className="trophy-confetti-center"
+    alt="extra"
+    src="/imgs/confetti.gif"
+    style={{
+      width: '250px',    // same size as trophy
+      height: 'auto',
+      margin: '10px 0'
+    }}
+  />
+  <p
+    style={{
+      textAlign: 'center',
+      marginTop: '20px',
+      fontSize: '18px',
+      fontWeight: 'bold'
+    }}
+  >
+    {t('top20Winners')} - {formatDate(quizDate)}
+  </p>
 </div>
 
 
