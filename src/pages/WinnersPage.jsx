@@ -186,45 +186,58 @@ export default function WinnersPage() {
 <div
   className="confetti-area-center"
   style={{
+    position: 'relative',           // Make this container relative
+    width: '100%',
+    height: '300px',                // adjust height as needed
     display: 'flex',
-    flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
     margin: '40px 0'
   }}
 >
-  <img
-    className="trophy-confetti-center"
-    alt="quiz"
-    src="/imgs/trophy2.gif"
-    style={{
-      width: '250px',    // adjust size as needed
-      height: 'auto',
-      margin: '10px 0'
-    }}
-  />
+  {/* Confetti GIF behind */}
   <img
     className="trophy-confetti-center"
     alt="extra"
     src="/imgs/confetti.gif"
     style={{
-      width: '250px',    // same size as trophy
+      position: 'absolute',         // Put behind trophy
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+      width: '400px',               // make it bigger
       height: 'auto',
-      margin: '10px 0'
+      zIndex: 1,
+      opacity: 0.8                  // optional transparency for nice effect
     }}
   />
+
+  {/* Trophy GIF on top */}
+  <img
+    className="trophy-confetti-center"
+    alt="quiz"
+    src="/imgs/trophy2.gif"
+    style={{
+      position: 'relative',         // On top of confetti
+      width: '250px',               // trophy size
+      height: 'auto',
+      zIndex: 2
+    }}
+  />
+
   <p
     style={{
+      position: 'absolute',         // keep text below both GIFs
+      bottom: '-40px',
       textAlign: 'center',
-      marginTop: '20px',
       fontSize: '18px',
-      fontWeight: 'bold'
+      fontWeight: 'bold',
+      width: '100%'
     }}
   >
     {t('top20Winners')} - {formatDate(quizDate)}
   </p>
 </div>
-
 
 
           {/* <p>Total 50 Questions Answered</p> */}
