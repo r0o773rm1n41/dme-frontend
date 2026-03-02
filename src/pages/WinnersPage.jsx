@@ -186,13 +186,14 @@ export default function WinnersPage() {
 <div
   className="confetti-area-center"
   style={{
-    position: 'relative',           // Make this container relative
+    position: 'relative',
     width: '100%',
-    height: '300px',                // adjust height as needed
+    height: '40vh',                // height relative to viewport
+    maxHeight: '500px',            // limit on very large screens
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    margin: '40px 0'
+    margin: '4vh 0'
   }}
 >
   {/* Confetti GIF behind */}
@@ -201,14 +202,15 @@ export default function WinnersPage() {
     alt="extra"
     src="/imgs/confetti.gif"
     style={{
-      position: 'absolute',         // Put behind trophy
+      position: 'absolute',
       top: '50%',
       left: '50%',
       transform: 'translate(-50%, -50%)',
-      width: '400px',               // make it bigger
+      width: '80%',                 // responsive width
+      maxWidth: '600px',            // don't get too huge
       height: 'auto',
       zIndex: 1,
-      opacity: 0.8                  // optional transparency for nice effect
+      opacity: 0.8
     }}
   />
 
@@ -218,8 +220,9 @@ export default function WinnersPage() {
     alt="quiz"
     src="/imgs/trophy2.gif"
     style={{
-      position: 'relative',         // On top of confetti
-      width: '250px',               // trophy size
+      position: 'relative',
+      width: '35%',                 // responsive width
+      maxWidth: '300px',            // limit size
       height: 'auto',
       zIndex: 2
     }}
@@ -227,10 +230,10 @@ export default function WinnersPage() {
 
   <p
     style={{
-      position: 'absolute',         // keep text below both GIFs
-      bottom: '-40px',
+      position: 'absolute',
+      bottom: '-6vh',               // responsive bottom offset
       textAlign: 'center',
-      fontSize: '18px',
+      fontSize: '2vh',              // scales with viewport
       fontWeight: 'bold',
       width: '100%'
     }}
