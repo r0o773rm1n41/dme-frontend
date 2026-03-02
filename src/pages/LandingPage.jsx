@@ -273,15 +273,6 @@ export default function LandingPage() {
 
   return (
     <>
-      {/* Legal notice for landing */}
-      <div style={{ margin: '16px', padding: '12px', backgroundColor: '#fff6f6', border: '1px solid #f5c6cb', borderRadius: '8px' }}>
-        <p style={{ fontWeight: 'bold', color: '#a94442' }}>
-          Participation in paid contests is strictly prohibited for residents of Andhra Pradesh, Assam, Odisha, Telangana, Tamil Nadu, Nagaland, and Sikkim.
-        </p>
-        <p style={{ fontSize: '14px' }}>
-          You must be 18+ to pay the entry fee. If you are between 13 and 17 years old, you confirm that you have verifiable parental consent. Transaction subject to Indian regulations and terms.
-        </p>
-      </div>
       <header className="header">
         <div className="logo">
           <img src="/imgs/logo-DME2.png" alt="Logo" />
@@ -520,6 +511,15 @@ export default function LandingPage() {
             <h6>
               {t('regulations')}
             </h6>
+                  {/* Legal notice for landing */}
+      <div style={{ margin: '16px', padding: '12px', backgroundColor: '#fff6f6', border: '1px solid #f5c6cb', borderRadius: '8px' }}>
+        <p style={{ fontWeight: 'bold', color: '#a94442' }}>
+          Participation in paid contests is strictly prohibited for residents of Andhra Pradesh, Assam, Odisha, Telangana, Tamil Nadu, Nagaland, and Sikkim.
+        </p>
+        <p style={{ fontSize: '14px' }}>
+          You must be 18+ to pay the entry fee. If you are between 13 and 17 years old, you confirm that you have verifiable parental consent. Transaction subject to Indian regulations and terms.
+        </p>
+      </div>
 
           </div>
         </div>
