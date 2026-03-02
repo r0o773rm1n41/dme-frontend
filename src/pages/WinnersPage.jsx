@@ -201,9 +201,9 @@ export default function WinnersPage() {
             </p>
           </div>
           
-<div className="credits-scroll">
   <h3>Congratulations To The Winners!</h3>
 
+<div className="credits-scroll">
   {[
     "Pramod Kumar - 25 (5 min 48 sec)",
     "Gulshan Singh Rajput - 25 (5 min 50 sec)",
