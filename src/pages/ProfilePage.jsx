@@ -138,14 +138,14 @@ export default function ProfilePage() {
           </div>
 
           <div className="profile-stats">
-            <div className="stat-item">
+            {/* <div className="stat-item">
               <h3>Posts</h3>
               <p>{user?.stats?.posts || user?.blogCount || 0}</p>
             </div>
             <div className="stat-item">
               <h3>Quizzes</h3>
               <p>{user?.stats?.quizzes || user?.quizHistory?.length || 0}</p>
-            </div>
+            </div> */}
             <div className="stat-item">
               <h3>Joined</h3>
               <p>{user?.createdAt ? new Date(user.createdAt).toLocaleDateString() : "Recently"}</p>

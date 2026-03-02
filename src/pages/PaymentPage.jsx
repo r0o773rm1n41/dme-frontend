@@ -14,6 +14,7 @@ export default function PaymentPage() {
   const [loading, setLoading] = useState(true);
   const [eligible, setEligible] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [hasParentalConsent, setHasParentalConsent] = useState(false); // for 13-17 yr olds
 
   // Check eligibility on load
   useEffect(() => {
@@ -24,7 +25,7 @@ export default function PaymentPage() {
 
     const checkEligibility = async () => {
       try {
-        const res = await API.get('/me/eligibility');
+        const res = await API.get('/payments/me/eligibility');
         setEligible(res.data.eligible);
         setLoading(false);
 
@@ -93,14 +94,16 @@ export default function PaymentPage() {
 
     try {
       // Create order via backend API
-      const orderResponse = await API.post("/payments/create-order");
+      const orderResponse = await API.post("/payments/create-order", {
+        parentalConsent: hasParentalConsent
+      });
 
       if (orderResponse.data.alreadyPaid) {
         spinner.remove();
         setLoading(false);
         alert("✅ You have already paid for today's quiz!");
         // Check eligibility again after payment
-        const res = await API.get('/me/eligibility');
+        const res = await API.get('/payments/me/eligibility');
         if (res.data.eligible) {
           navigate("/quiz");
         }
@@ -137,7 +140,7 @@ export default function PaymentPage() {
             });
 
             // Check eligibility again after payment verification
-            const eligibilityRes = await API.get('/me/eligibility');
+            const eligibilityRes = await API.get('/payments/me/eligibility');
             if (eligibilityRes.data.eligible) {
               alert("✅ Payment Successful! You are now eligible for today's quiz.");
               spinner.remove();
@@ -204,6 +207,9 @@ export default function PaymentPage() {
     );
   }
 
+  const isMinor = user?.age && user.age < 18;
+  const requiresConsent = user?.age && user.age >= 13 && user.age < 18;
+
   return (
     <>
       <header className="header">
@@ -214,6 +220,15 @@ export default function PaymentPage() {
         <h2>PAYMENT</h2>
       </header>
 
+      {/* Legal notices */}
+      <div style={{ marginBottom: '16px', padding: '12px', backgroundColor: '#fff6f6', border: '1px solid #f5c6cb', borderRadius: '8px' }}>
+        <p style={{ fontWeight: 'bold', color: '#a94442' }}>
+          Participation in paid contests is strictly prohibited for residents of Andhra Pradesh, Assam, Odisha, Telangana, Tamil Nadu, Nagaland, and Sikkim.
+        </p>
+        <p style={{ fontSize: '14px' }}>
+          You must be 18+ to pay the entry fee. If you are between 13 and 17 years old, you confirm that you have verifiable parental consent. Transaction subject to Indian regulations and terms.
+        </p>
+      </div>
       <div className="payment-container" style={{ padding: "20px", maxWidth: "600px", margin: "0 auto" }}>
         <div className="payment-card" style={{
           background: "#fff", borderRadius: "12px", padding: "30px",
@@ -234,9 +249,20 @@ export default function PaymentPage() {
             <span style={{ fontSize: "16px", opacity: "0.9" }}>per quiz</span>
           </div>
 
+          {requiresConsent && !hasParentalConsent && (
+            <div style={{ marginBottom: '12px' }}>
+              <label>
+                <input
+                  type="checkbox"
+                  checked={hasParentalConsent}
+                  onChange={() => setHasParentalConsent(!hasParentalConsent)}
+                /> I confirm I have parental consent
+              </label>
+            </div>
+          )}
           <button
             onClick={handlePayment}
-            disabled={loading}
+            disabled={loading || (requiresConsent && !hasParentalConsent)}
             style={{
               width: "100%", padding: "15px",
               background: loading ? "#aaa" : "#660000",
