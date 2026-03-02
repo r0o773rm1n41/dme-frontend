@@ -1,0 +1,57 @@
+// frontend/src/utils/adminApi.js
+import axios from "axios";
+
+// Get the API URL from environment variables or default to localhost
+// const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+const getAPIURL = () => {
+  if (import.meta.env.VITE_API_URL) {
+    return `${import.meta.env.VITE_API_URL}/api`;
+  }
+  return "http://localhost:5000/api";
+};
+
+const API_URL = getAPIURL();
+
+
+const AdminAPI = axios.create({
+  baseURL: API_URL,
+  withCredentials: true,
+});
+
+// Add admin token to requests
+AdminAPI.interceptors.request.use(
+  (config) => {
+    const adminToken = localStorage.getItem("adminToken") || localStorage.getItem("token");
+    if (adminToken) {
+      config.headers.Authorization = `Bearer ${adminToken}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+// Global Axios interceptor for error handling
+AdminAPI.interceptors.response.use(
+  (response) => response,
+  (error) => {
+
+    const message =
+      error?.response?.data?.message ||
+      error?.message ||
+      "Network error occurred. Please try again.";
+
+    // Handle 401 unauthorized
+    if (error.response?.status === 401) {
+      localStorage.removeItem("adminToken");
+      if (!["/admin-login", "/admin-register"].includes(window.location.pathname)) {
+        window.location.href = "/admin-login";
+      }
+    }
+
+    return Promise.reject(new Error(message));
+  }
+);
+
+export default AdminAPI;
