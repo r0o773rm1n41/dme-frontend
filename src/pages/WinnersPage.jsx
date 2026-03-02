@@ -606,7 +606,6 @@ export default function WinnersPage() {
       <div key={"dup_" + i} className="winnerr">{name}</div>
     ))}
   </div>
-</div>
 
 
           {/* </div> */}
