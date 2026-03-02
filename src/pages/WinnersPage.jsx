@@ -1,383 +1,4 @@
-// // // frontend/src/pages/WinnersPage.jsx
-// // frontend/src/pages/WinnersPage.jsx
-
-// import * as motion from "motion/react-client";
-// import React, { useState, useEffect, useContext, useRef } from "react";
-// import { useParams, useNavigate } from "react-router-dom";
-// import Confetti from "react-confetti";
-// import DarkModeToggle from "../components/DarkModeToggle";
-// import { AuthContext } from "../context/AuthContext";
-// import { useTranslation } from "../context/LanguageContext";
-// import API from "../utils/api";
-// import "../styles/global.css";
-// import { getImageURL } from "../utils/imageHelper";
-
-// export default function WinnersPage() {
-//   const { user } = useContext(AuthContext);
-//   const { t } = useTranslation();
-//   const { date } = useParams();
-//   const navigate = useNavigate();
-
-//   const [winners, setWinners] = useState([]);
-//   const [loading, setLoading] = useState(true);
-//   const [error, setError] = useState(null);
-//   const [selectedDate, setSelectedDate] = useState(
-//     date || new Date().toISOString().split("T")[0]
-//   );
-//   const [totalParticipants, setTotalParticipants] = useState(0);
-//   const [quizDate, setQuizDate] = useState(null);
-//   const [showConfetti, setShowConfetti] = useState(false);
-//   const [windowDimensions, setWindowDimensions] = useState({
-//     width: window.innerWidth,
-//     height: window.innerHeight,
-//   });
-
-//   const autoRefreshRef = useRef(null);
-
-//   /* =========================
-//      Window Resize
-//   ========================== */
-//   useEffect(() => {
-//     const handleResize = () => {
-//       setWindowDimensions({
-//         width: window.innerWidth,
-//         height: window.innerHeight,
-//       });
-//     };
-
-//     window.addEventListener("resize", handleResize);
-//     return () => window.removeEventListener("resize", handleResize);
-//   }, []);
-
-//   /* =========================
-//      Confetti Trigger
-//   ========================== */
-//   useEffect(() => {
-//     setShowConfetti(true);
-//     const timer = setTimeout(() => setShowConfetti(false), 6000);
-//     return () => clearTimeout(timer);
-//   }, []);
-
-//   /* =========================
-//      Load Winners + Auto Refresh
-//   ========================== */
-//   useEffect(() => {
-//     loadWinners(selectedDate);
-
-//     const today = new Date().toISOString().split("T")[0];
-//     if (selectedDate !== today) return;
-
-//     const timeout = setTimeout(() => {
-//       autoRefreshRef.current = setInterval(() => {
-//         loadWinners(selectedDate);
-//       }, 30000);
-//     }, 30 * 60 * 1000);
-
-//     return () => {
-//       clearTimeout(timeout);
-//       if (autoRefreshRef.current) {
-//         clearInterval(autoRefreshRef.current);
-//         autoRefreshRef.current = null;
-//       }
-//     };
-//   }, [selectedDate]);
-
-//   const loadWinners = async (dateParam) => {
-//     try {
-//       setLoading(true);
-//       setError(null);
-
-//       const response = await API.get("/quiz/winners", {
-//         params: dateParam ? { quizDate: dateParam } : {},
-//       });
-
-//       if (response.data?.winners?.length > 0) {
-//         setWinners(response.data.winners);
-//         setTotalParticipants(response.data.totalParticipants || 0);
-//         setQuizDate(response.data.quizDate);
-//       } else {
-//         setWinners([]);
-//         setTotalParticipants(0);
-//         setQuizDate(dateParam || new Date());
-//       }
-//     } catch (err) {
-//       setError("Failed to load winners data");
-//       setWinners([]);
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   const handleDateChange = (e) => {
-//     setSelectedDate(e.target.value);
-//   };
-
-//   const getMedalEmoji = (rank) => {
-//     if (rank === 1) return "🥇";
-//     if (rank === 2) return "🥈";
-//     if (rank === 3) return "🥉";
-//     return null;
-//   };
-
-//   const formatDate = (dateString) => {
-//     if (!dateString) return new Date().toLocaleDateString();
-//     const dateObj = new Date(dateString);
-//     if (isNaN(dateObj.getTime())) return "Invalid Date";
-//     return dateObj.toLocaleDateString("en-IN", {
-//       year: "numeric",
-//       month: "long",
-//       day: "numeric",
-//     });
-//   };
-
-//   return (
-//     <>
-//       {/* Confetti Left */}
-//       {showConfetti && (
-//         <Confetti
-//           width={windowDimensions.width}
-//           height={windowDimensions.height}
-//           numberOfPieces={200}
-//           initialVelocityX={{ min: 30, max: 100 }}
-//           initialVelocityY={{ min: -100, max: -50 }}
-//           gravity={1.2}
-//           friction={0.92}
-//           confettiSource={{
-//             x: 20,
-//             y: windowDimensions.height - 20,
-//             w: 40,
-//             h: 40,
-//           }}
-//           style={{ position: "fixed", zIndex: 9999 }}
-//           recycle={false}
-//         />
-//       )}
-
-//       {/* Confetti Right */}
-//       {showConfetti && (
-//         <Confetti
-//           width={windowDimensions.width}
-//           height={windowDimensions.height}
-//           numberOfPieces={200}
-//           initialVelocityX={{ min: -100, max: -30 }}
-//           initialVelocityY={{ min: -100, max: -50 }}
-//           gravity={1.2}
-//           friction={0.92}
-//           confettiSource={{
-//             x: windowDimensions.width - 20,
-//             y: windowDimensions.height - 20,
-//             w: 40,
-//             h: 40,
-//           }}
-//           style={{ position: "fixed", zIndex: 9999 }}
-//           recycle={false}
-//         />
-//       )}
-
-//       {/* Header */}
-//       <header className="header">
-//         <div className="logo">
-//           <img src="/imgs/logo-DME2.png" alt="Logo" />
-//         </div>
-//         <DarkModeToggle />
-//         <h2>{t("WINNERS")}</h2>
-//       </header>
-
-//       <div className="winners-container">
-//         <div className="winners-header">
-//           <h2>Quiz Results</h2>
-//           <h2>Daily Mind Education</h2>
-
-//           {/* Trophy + GIF */}
-//           <div className="celebration-area">
-//             <img className="trophy-gif" alt="trophy" src="/imgs/trophy2.gif" />
-//             <img
-//               className="confetti-gif"
-//               alt="confetti"
-//               src="/imgs/confetti.gif"
-//             />
-//             <p className="winners-text">
-//               {t("top20Winners")} - {formatDate(quizDate)}
-//             </p>
-//           </div>
-          
-//   <h3>Congratulations To The Winners!</h3>
-
-// <div className="credits-scroll">
-//   {[
-//     "Pramod Kumar - 25 (5 min 48 sec)",
-//     "Gulshan Singh Rajput - 25 (5 min 50 sec)",
-//     "Suman Kumar - 25 (6 min 02 sec)",
-//     "Suraj Kumar - 25 (6 min 02 sec)",
-//     "Rajesh Maraiya - 25 (6 min 02 sec)",
-//     "Monam Kumari - 25 (6 min 02 sec)"
-//   ].map((name, i) => (
-//     <div key={i} className="winnerr">{name}</div>
-//   ))}
-
-//   {/* duplicate list for seamless loop */}
-//   {[
-//     "Pramod Kumar - 25 (5 min 48 sec)",
-//     "Gulshan Singh Rajput - 25 (5 min 50 sec)",
-//     "Suman Kumar - 25 (6 min 02 sec)",
-//     "Suraj Kumar - 25 (6 min 02 sec)",
-//     "Rajesh Maraiya - 25 (6 min 02 sec)",
-//     "Monam Kumari - 25 (6 min 02 sec)"
-//   ].map((name, i) => (
-//     <div key={"dup_" + i} className="winnerr">{name}</div>
-//   ))}
-// </div>
-
-//           {/* Date Picker */}
-//           <div style={{ margin: "20px 0" }}>
-//             <input
-//               type="date"
-//               value={selectedDate}
-//               onChange={handleDateChange}
-//               max={new Date().toISOString().split("T")[0]}
-//             />
-//           </div>
-
-//           {totalParticipants > 0 && (
-//             <div style={{ textAlign: "center", marginBottom: "20px" }}>
-//               <strong>Total Participants: {totalParticipants}</strong>
-//             </div>
-//           )}
-//         </div>
-
-//         {/* =======================
-//            CONTENT
-//         ======================== */}
-
-//         {loading ? (
-//           <div style={{ textAlign: "center", padding: "40px" }}>
-//             ⌛ {t("loading")}...
-//           </div>
-//         ) : error ? (
-//           <div style={{ textAlign: "center", padding: "40px", color: "red" }}>
-//             {error}
-//           </div>
-//         ) : winners.length === 0 ? (
-//           <div style={{ textAlign: "center", padding: "40px" }}>
-//             ⏳ Results Not Published Yet...
-//           </div>
-//         ) : (
-//           <div className="winners-list">
-//             {winners.map((winner, index) => (
-//               <motion.div
-//                 key={index}
-//                 className="winner-card"
-//                 whileHover={{
-//                   scale: 1.02,
-//                   boxShadow: "0 8px 16px rgba(0,0,0,0.2)",
-//                 }}
-//                 whileTap={{ scale: 0.98 }}
-//                 onClick={() =>
-//                   winner.user?._id &&
-//                   navigate(`/user/${winner.user._id}/blogs`)
-//                 }
-//                 style={{
-//                   display: "flex",
-//                   alignItems: "center",
-//                   padding: "15px",
-//                   margin: "10px 0",
-//                   borderRadius: "10px",
-//                   cursor: "pointer",
-//                 }}
-//               >
-//                 {/* Rank */}
-//                 <div style={{ marginRight: "20px", minWidth: "60px" }}>
-//                   {winner.rank <= 3 ? (
-//                     <span style={{ fontSize: "30px" }}>
-//                       {getMedalEmoji(winner.rank)}
-//                     </span>
-//                   ) : (
-//                     <strong>#{winner.rank}</strong>
-//                   )}
-//                 </div>
-
-//                 {/* Info */}
-//                 <div style={{ flex: 1 }}>
-//                   <div
-//                     style={{
-//                       display: "flex",
-//                       alignItems: "center",
-//                       justifyContent: "space-between",
-//                     }}
-//                   >
-//                     {winner.user?.profileImage ? (
-//                       <img
-//                         src={getImageURL(winner.user.profileImage)}
-//                         alt="Profile"
-//                         style={{
-//                           width: "40px",
-//                           height: "40px",
-//                           borderRadius: "50%",
-//                           objectFit: "cover",
-//                         }}
-//                       />
-//                     ) : (
-//                       <div
-//                         style={{
-//                           width: "40px",
-//                           height: "40px",
-//                           borderRadius: "50%",
-//                           backgroundColor: "#007bff",
-//                           color: "white",
-//                           display: "flex",
-//                           alignItems: "center",
-//                           justifyContent: "center",
-//                         }}
-//                       >
-//                         {winner.user?.fullName?.charAt(0) || "U"}
-//                       </div>
-//                     )}
-
-//                     <div
-//                       style={{
-//                         display: "flex",
-//                         alignItems: "center",
-//                         gap: "6px",
-//                       }}
-//                     >
-//                       {winner.rank === 1 && <span>👑</span>}
-//                       <strong>
-//                         {winner.user?.fullName ||
-//                           winner.user?.username ||
-//                           "Anonymous"}
-//                       </strong>
-//                       {winner.rank <= 3 && <span>WINNER</span>}
-//                     </div>
-//                   </div>
-
-//                   <div style={{ fontSize: "14px", marginTop: "5px" }}>
-//                     {t("score")}: {winner.score} |{" "}
-//                     {t("accuracy")}: {winner.accuracy}% |{" "}
-//                     {t("time")}: {Math.floor(winner.timeSpent / 60)}m{" "}
-//                     {winner.timeSpent % 60}s
-//                   </div>
-//                 </div>
-//               </motion.div>
-//             ))}
-//           </div>
-//         )}
-
-//         {/* Footer */}
-//         <div style={{ textAlign: "center", marginTop: "30px" }}>
-//           🎉 Congratulations to all winners!
-//           {user && (
-//             <div style={{ marginTop: "15px" }}>
-//               <button onClick={() => (window.location.href = "/quiz")}>
-//                 {t("joinQuiz")}
-//               </button>
-//             </div>
-//           )}
-//         </div>
-//       </div>
-//     </>
-//   );
-// }
-
+// frontend/src/pages/WinnersPage.jsx
 // At the top of your file
 import * as motion from "motion/react-client";
 import React, { useState, useEffect, useContext, useRef } from "react";
@@ -388,9 +9,7 @@ import { AuthContext } from "../context/AuthContext";
 import { useTranslation } from "../context/LanguageContext";
 import API from "../utils/api";
 import "../styles/global.css";
-// import './winners.css';
 import { getImageURL } from "../utils/imageHelper";
-
 
 
 export default function WinnersPage() {
@@ -564,26 +183,27 @@ export default function WinnersPage() {
           <p>Top 20 Winners - {formatDate(quizDate)}</p>
           </div> */}
 
-
-          {/* Trophy + GIF */}
-          <div className="celebration-area">
-            <img className="trophy-gif" alt="trophy" src="/imgs/trophy2.gif" />
-            <img
-              className="confetti-gif"
-              alt="confetti"
-              src="/imgs/confetti.gif"
-            />
-            <p className="winners-text">
-              {t("top20Winners")} - {formatDate(quizDate)}
-            </p>
-          </div>
+  <div className="confetti-area">
+          {/* <div className="trophy-icon" aria-label="Trophy">
+    <img className="trophy-confetti" 
+         alt="quiz" 
+        //  src="https://img.icons8.com/?size=100&id=cRDlJeszVWm0&format=png&color=000000" />
+                 src="./public/imgs/trophee.png" />
+  </div> */}
+    <img
+  className="trophy-confetti"
+  alt="quiz"
+  src="/imgs/tropheee.png"
+/>
+ <p>{t('top20Winners')} - {formatDate(quizDate)}</p>
+</div>
 
 
 
           {/* <p>Total 50 Questions Answered</p> */}
           <h3>Congratulations To The Winners!</h3>
 
-
+<div className="credits-wrapper">
   <div className="credits-scroll">
     {[
       "Pramod Kumar - 25 (5 min 48 sec)",
@@ -608,6 +228,7 @@ export default function WinnersPage() {
       <div key={"dup_" + i} className="winnerr">{name}</div>
     ))}
   </div>
+</div>
 
 
           {/* </div> */}
