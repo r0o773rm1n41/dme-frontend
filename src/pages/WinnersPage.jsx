@@ -193,7 +193,7 @@ export default function WinnersPage() {
     <img
   className="trophy-confetti"
   alt="quiz"
-  src="/imgs/tropheee.png"
+  src="/imgs/Trophy.gif"
 />
  <p>{t('top20Winners')} - {formatDate(quizDate)}</p>
 </div>
