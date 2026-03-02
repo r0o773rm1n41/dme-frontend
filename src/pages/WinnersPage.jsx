@@ -200,8 +200,33 @@ export default function WinnersPage() {
               {t("top20Winners")} - {formatDate(quizDate)}
             </p>
           </div>
+          
+<div className="credits-scroll">
+  <h3>Congratulations To The Winners!</h3>
 
-          <h3>Congratulations To The Winners!</h3>
+  {[
+    "Pramod Kumar - 25 (5 min 48 sec)",
+    "Gulshan Singh Rajput - 25 (5 min 50 sec)",
+    "Suman Kumar - 25 (6 min 02 sec)",
+    "Suraj Kumar - 25 (6 min 02 sec)",
+    "Rajesh Maraiya - 25 (6 min 02 sec)",
+    "Monam Kumari - 25 (6 min 02 sec)"
+  ].map((name, i) => (
+    <div key={i} className="winnerr">{name}</div>
+  ))}
+
+  {/* duplicate list for seamless loop */}
+  {[
+    "Pramod Kumar - 25 (5 min 48 sec)",
+    "Gulshan Singh Rajput - 25 (5 min 50 sec)",
+    "Suman Kumar - 25 (6 min 02 sec)",
+    "Suraj Kumar - 25 (6 min 02 sec)",
+    "Rajesh Maraiya - 25 (6 min 02 sec)",
+    "Monam Kumari - 25 (6 min 02 sec)"
+  ].map((name, i) => (
+    <div key={"dup_" + i} className="winnerr">{name}</div>
+  ))}
+</div>
 
           {/* Date Picker */}
           <div style={{ margin: "20px 0" }}>
