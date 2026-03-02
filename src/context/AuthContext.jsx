@@ -287,8 +287,18 @@ export default function AuthProvider({ children }) {
       if (!password || typeof password !== 'string') {
         throw new Error("Password is required");
       }
-      const deviceId = localStorage.getItem('deviceId') || null;
-      const payload = phone ? { phone, password, deviceId } : { email, password, deviceId };
+      // const deviceId = localStorage.getItem('deviceId') || null;
+      // const payload = phone ? { phone, password, deviceId } : { email, password, deviceId };
+      let deviceId = localStorage.getItem('deviceId');
+
+if (!deviceId) {
+  deviceId = crypto.randomUUID();
+  localStorage.setItem('deviceId', deviceId);
+}
+
+const payload = phone
+  ? { phone, password, deviceId }
+  : { email, password, deviceId };
       const res = await API.post("/auth/login", payload);
       // Robustly extract token from response
       const accessToken = res.data.accessToken || res.data.token;
