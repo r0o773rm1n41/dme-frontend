@@ -220,15 +220,7 @@ export default function PaymentPage() {
         <h2>PAYMENT</h2>
       </header>
 
-      {/* Legal notices */}
-      <div style={{ marginBottom: '16px', padding: '12px', backgroundColor: '#fff6f6', border: '1px solid #f5c6cb', borderRadius: '8px' }}>
-        <p style={{ fontWeight: 'bold', color: '#a94442' }}>
-          Participation in paid contests is strictly prohibited for residents of Andhra Pradesh, Assam, Odisha, Telangana, Tamil Nadu, Nagaland, and Sikkim.
-        </p>
-        <p style={{ fontSize: '14px' }}>
-          You must be 18+ to pay the entry fee. If you are between 13 and 17 years old, you confirm that you have verifiable parental consent. Transaction subject to Indian regulations and terms.
-        </p>
-      </div>
+
       <div className="payment-container" style={{ padding: "20px", maxWidth: "600px", margin: "0 auto" }}>
         <div className="payment-card" style={{
           background: "#fff", borderRadius: "12px", padding: "30px",
@@ -289,6 +281,16 @@ export default function PaymentPage() {
             <li>Secure & encrypted payment</li>
           </ul>
         </div>
+      </div>
+
+            {/* Legal notices */}
+      <div style={{ marginBottom: '16px', padding: '12px', backgroundColor: '#fff6f6', border: '1px solid #f5c6cb', borderRadius: '8px' }}>
+        <p style={{ fontWeight: 'bold', color: '#a94442' }}>
+          Participation in paid contests is strictly prohibited for residents of Andhra Pradesh, Assam, Odisha, Telangana, Tamil Nadu, Nagaland, and Sikkim.
+        </p>
+        <p style={{ fontSize: '14px' }}>
+          You must be 18+ to pay the entry fee. If you are between 13 and 17 years old, you confirm that you have verifiable parental consent. Transaction subject to Indian regulations and terms.
+        </p>
       </div>
 
       <ProfileDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} />
