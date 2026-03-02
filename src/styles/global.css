@@ -2617,7 +2617,7 @@ body.dark .action-button.secondary:hover {
 
 /* Trophy itself (can have optional float animation) */
 .trophy-confetti {
-  width: 125px;
+  width: 101px;
   z-index: 1;
   position: relative;
 }
@@ -4839,7 +4839,7 @@ header h2 {
   /* Winners Page */
   .winners-container { padding: 15px 10px; }
   .winners-header { padding: 15px; margin-top: -10px; }
-  .winners-header h2 { font-size: 18px; }
+  .winners-header h2 { font-size: 26px; }
   .winner-card { padding: 15px; }
   .rank { width: 50px; margin-right: 15px; }
   .medal { font-size: 28px; }
