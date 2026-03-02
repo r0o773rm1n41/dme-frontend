@@ -204,6 +204,11 @@ export default function WinnersPage() {
           <h3>Congratulations To The Winners!</h3>
 
 <div className="credits-wrapper">
+      <img
+  className="trophy-confetti"
+  alt="quiz"
+  src="/imgs/confetti.gif"
+/>
   <div className="credits-scroll">
     {[
       "Pramod Kumar - 25 (5 min 48 sec)",
