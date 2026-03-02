@@ -29,6 +29,33 @@
   font-size: 28px;
 }
 
+/* Ticker container */
+.credits-scroll {
+  overflow: hidden;
+  white-space: nowrap;
+  width: 100%;
+  box-sizing: border-box;
+  background: #f1f1f1; /* optional, for visibility */
+  padding: 10px 0;
+}
+
+/* The animated list */
+.credits-marquee {
+  display: inline-block;
+  white-space: nowrap;
+  animation: scroll-left 20s linear infinite;
+}
+
+/* Animation keyframes for scrolling left */
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
 /* =========================
    CELEBRATION AREA
 ========================= */
