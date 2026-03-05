@@ -2,7 +2,7 @@
 
 
 import React, { createContext, useEffect, useState } from "react";
-import API from "../utils/api";
+import API, { clearTokenRefreshTimer } from "../utils/api";
 import { showAlert } from "./AlertContext";
 import { socket } from "../socket";
 
@@ -356,10 +356,18 @@ const payload = phone
 
   const logout = async () => {
     try {
-      await API.post("/auth/logout");
+      // Don't retry on 401 for logout
+      await API.post("/auth/logout", {}, { _skipRefresh: true });
+      console.log("Logout API call successful");
     } catch (e) {
-      // ignore errors
+      console.error("Logout API call failed:", e);
+      // Continue with logout even if API fails
     } finally {
+      // Clear tokens from localStorage
+      localStorage.removeItem("token");
+      localStorage.removeItem("refreshToken");
+      // Clear token refresh timer
+      clearTokenRefreshTimer();
       setUser(null);
       // Disconnect socket on logout
       if (socket.connected) {

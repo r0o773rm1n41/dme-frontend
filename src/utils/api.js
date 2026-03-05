@@ -121,14 +121,11 @@ if (localStorage.getItem("token") && localStorage.getItem("refreshToken")) {
   scheduleTokenRefresh();
 }
 
-// Reconnect socket when token is refreshed
-export const reconnectSocketOnTokenRefresh = () => {
-  if (typeof window !== 'undefined') {
-    import('../socket').then(({ reconnectSocket }) => {
-      reconnectSocket();
-    }).catch(() => {
-      // Socket module not available, ignore
-    });
+// Clear token refresh timer (used during logout)
+export const clearTokenRefreshTimer = () => {
+  if (tokenRefreshTimer) {
+    clearTimeout(tokenRefreshTimer);
+    tokenRefreshTimer = null;
   }
 };
 
@@ -183,7 +180,7 @@ API.interceptors.response.use(
     }
 
     // Handle 401 unauthorized - try token refresh
-    if (error.response?.status === 401 && !error.config._retry) {
+    if (error.response?.status === 401 && !error.config._retry && !error.config._skipRefresh) {
       const refreshToken = localStorage.getItem("refreshToken");
       if (refreshToken) {
         try {
